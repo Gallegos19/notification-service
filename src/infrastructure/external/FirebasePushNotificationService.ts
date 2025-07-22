@@ -1,5 +1,4 @@
 import * as admin from "firebase-admin";
-import * as path from "path";
 import {
   PushNotificationService,
   PushNotificationData,
@@ -33,9 +32,33 @@ export class FirebasePushNotificationService
     // Procesar la clave privada para manejar diferentes formatos
     let privateKey = process.env.FIREBASE_PRIVATE_KEY!;
 
+    console.log(
+      "🔍 Debug - Clave privada original (primeros 50 chars):",
+      privateKey.substring(0, 50)
+    );
+    console.log(
+      "🔍 Debug - Contiene \\n literales:",
+      privateKey.includes("\\n")
+    );
+    console.log(
+      "🔍 Debug - Contiene saltos de línea reales:",
+      privateKey.includes("\n")
+    );
+
     // Reemplazar \n literales con saltos de línea reales si es necesario
     if (privateKey.includes("\\n")) {
       privateKey = privateKey.replace(/\\n/g, "\n");
+      console.log(
+        "🔄 Clave privada procesada (primeros 50 chars):",
+        privateKey.substring(0, 50)
+      );
+    }
+
+    // Verificar que tenga el formato PEM correcto
+    if (!privateKey.startsWith("-----BEGIN PRIVATE KEY-----")) {
+      console.log("⚠️ La clave privada no tiene el formato PEM correcto");
+    } else {
+      console.log("✅ La clave privada tiene el formato PEM correcto");
     }
 
     // Crear el objeto de credenciales desde las variables de entorno
