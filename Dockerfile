@@ -42,7 +42,6 @@ RUN npx prisma generate
 
 # Copy built application and Firebase credentials
 COPY --from=builder --chown=xumaa:nodejs /app/dist ./dist
-COPY --from=builder --chown=xumaa:nodejs /app/xuma-6f453-firebase-adminsdk-fbsvc-9239927607.json ./
 
 # Switch to non-root user
 USER xumaa
