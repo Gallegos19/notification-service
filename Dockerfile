@@ -7,8 +7,8 @@ WORKDIR /app
 COPY package*.json ./
 COPY tsconfig.json ./
 
-# Install dependencies
-RUN npm ci --only=production && npm cache clean --force
+# Install all dependencies (including dev dependencies for build)
+RUN npm ci && npm cache clean --force
 
 # Copy source code
 COPY src/ ./src/
@@ -32,10 +32,12 @@ RUN apk add --no-cache dumb-init
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S xumaa -u 1001
 
-# Copy built application
+# Copy package files and install only production dependencies
+COPY package*.json ./
+RUN npm ci --only=production && npm cache clean --force
+
+# Copy built application and other necessary files
 COPY --from=builder --chown=xumaa:nodejs /app/dist ./dist
-COPY --from=builder --chown=xumaa:nodejs /app/node_modules ./node_modules
-COPY --from=builder --chown=xumaa:nodejs /app/package*.json ./
 COPY --from=builder --chown=xumaa:nodejs /app/prisma ./prisma
 COPY --from=builder --chown=xumaa:nodejs /app/xuma-6f453-firebase-adminsdk-fbsvc-9239927607.json ./
 
