@@ -52,6 +52,7 @@ class NotificationServiceApp {
     this.container.setupDependencies();
   }
 
+
   private setupRoutes(): void {
     // Swagger documentation
     this.app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
