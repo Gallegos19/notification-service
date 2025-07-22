@@ -54,11 +54,33 @@ export class FirebasePushNotificationService
       );
     }
 
-    // Verificar que tenga el formato PEM correcto
-    if (!privateKey.startsWith("-----BEGIN PRIVATE KEY-----")) {
-      console.log("⚠️ La clave privada no tiene el formato PEM correcto");
+    // El problema es que la clave puede estar mal formateada
+    // Vamos a reconstruirla correctamente
+    if (
+      privateKey.includes("-----BEGIN PRIVATE KEY-----") &&
+      privateKey.includes("-----END PRIVATE KEY-----")
+    ) {
+      console.log("🔄 Reformateando clave privada...");
+
+      // Extraer solo el contenido entre los headers
+      const keyContent = privateKey
+        .replace("-----BEGIN PRIVATE KEY-----", "")
+        .replace("-----END PRIVATE KEY-----", "")
+        .replace(/\s/g, ""); // Remover todos los espacios y saltos de línea
+
+      // Reconstruir la clave con el formato correcto (64 caracteres por línea)
+      const formattedKeyContent =
+        keyContent.match(/.{1,64}/g)?.join("\n") || keyContent;
+
+      privateKey = `-----BEGIN PRIVATE KEY-----\n${formattedKeyContent}\n-----END PRIVATE KEY-----`;
+
+      console.log("✅ Clave privada reformateada correctamente");
+      console.log(
+        "🔍 Nuevos saltos de línea:",
+        (privateKey.match(/\n/g) || []).length
+      );
     } else {
-      console.log("✅ La clave privada tiene el formato PEM correcto");
+      console.log("⚠️ La clave privada no tiene el formato PEM correcto");
     }
 
     // Crear el objeto de credenciales desde las variables de entorno
