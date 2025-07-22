@@ -76,14 +76,7 @@ export class Container {
 
     this.register<PushNotificationService>(
       "pushNotificationService",
-      () =>
-        new FirebasePushNotificationService(
-          path.join(
-            __dirname,
-            "../../../xuma-6f453-firebase-adminsdk-fbsvc-9239927607.json"
-          ),
-          process.env.FIREBASE_PROJECT_ID!
-        )
+      () => new FirebasePushNotificationService()
     );
 
     this.register<TemplateService>(

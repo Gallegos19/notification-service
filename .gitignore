@@ -105,7 +105,9 @@ Thumbs.db
 prisma/migrations/
 
 # Firebase service account (keep the example, ignore real ones)
-# xuma-6f453-firebase-adminsdk-fbsvc-9239927607.json
+xuma-6f453-firebase-adminsdk-fbsvc-9239927607.json
+*firebase-adminsdk*.json
+firebase-service-account.json
 
 # Docker
 .dockerignore
