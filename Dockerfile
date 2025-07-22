@@ -39,7 +39,6 @@ RUN npm ci --only=production && npm cache clean --force
 # Copy built application and other necessary files
 COPY --from=builder --chown=xumaa:nodejs /app/dist ./dist
 COPY --from=builder --chown=xumaa:nodejs /app/prisma ./prisma
-COPY --from=builder --chown=xumaa:nodejs /app/xuma-6f453-firebase-adminsdk-fbsvc-9239927607.json ./
 
 # Switch to non-root user
 USER xumaa
