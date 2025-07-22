@@ -25,8 +25,8 @@ FROM node:18-alpine AS production
 
 WORKDIR /app
 
-# Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
+# Install dumb-init and OpenSSL for Prisma
+RUN apk add --no-cache dumb-init openssl
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs
@@ -36,12 +36,13 @@ RUN adduser -S xumaa -u 1001
 COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 
-# Copy prisma schema and generate client
+# Copy prisma schema and generate client for Alpine Linux
 COPY --from=builder /app/prisma ./prisma
 RUN npx prisma generate
 
-# Copy built application and Firebase credentials
+# Copy built application and generated Prisma client
 COPY --from=builder --chown=xumaa:nodejs /app/dist ./dist
+COPY --from=builder --chown=xumaa:nodejs /app/node_modules/.prisma ./node_modules/.prisma
 
 # Switch to non-root user
 USER xumaa
