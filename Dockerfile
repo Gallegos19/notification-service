@@ -13,7 +13,6 @@ RUN npm ci --only=production && npm cache clean --force
 # Copy source code
 COPY src/ ./src/
 COPY prisma/ ./prisma/
-COPY xuma-6f453-firebase-adminsdk-fbsvc-9239927607.json ./
 
 # Generate Prisma client
 RUN npx prisma generate
