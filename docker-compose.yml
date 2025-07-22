@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  notification-service:
+    build: .
+    ports:
+      - "3005:3005"
+    environment:
+      - NODE_ENV=production
+      - PORT=3005
+      - DATABASE_URL=postgresql://xumaa:password@postgres:5432/notification_db
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL}
+      - SENDGRID_FROM_NAME=Xuma'a
+      - JWT_SECRET=${JWT_SECRET}
+      - FIREBASE_PROJECT_ID=xuma-6f453
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - xumaa-network
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=xumaa
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=notification_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    networks:
+      - xumaa-network
+
+volumes:
+  postgres_data:
+
+networks:
+  xumaa-network:
+    driver: bridge

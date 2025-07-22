@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirma tu correo electrónico</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8f0;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 15px;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .content {
+            padding: 40px 30px;
+            line-height: 1.6;
+            text-align: center;
+        }
+        .content h2 {
+            color: #1976D2;
+            margin-bottom: 20px;
+        }
+        .confirmation-box {
+            background-color: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 15px 35px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 16px;
+            margin: 20px 0;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.3);
+        }
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(76, 175, 80, 0.4);
+        }
+        .token-info {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #666;
+            word-break: break-all;
+        }
+        .footer {
+            background-color: #f8f8f8;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        .eco-icons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .eco-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #4CAF50;
+            transition: transform 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .eco-icon:hover {
+            transform: scale(1.1);
+        }
+        .warning {
+            background-color: #fff3e0;
+            border-left: 4px solid #FF9800;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="cid:xuma-logo" alt="Xuma'a Logo" class="logo">
+            <h1>Confirma tu correo</h1>
+            <p>Un paso más para unirte a Xuma'a 📧</p>
+        </div>
+        <div class="content">
+            <h2>¡Hola {{userName}}! 👋</h2>
+            <p>Para completar tu registro en Xuma'a, necesitamos confirmar tu dirección de correo electrónico.</p>
+            
+            <div class="confirmation-box">
+                <h3>🔐 Confirmación de Email</h3>
+                <p>Haz clic en el botón de abajo para confirmar tu correo electrónico y activar tu cuenta:</p>
+            </div>
+
+            <div style="text-align: center;">
+                <a href="{{confirmationUrl}}" class="button">✅ Confirmar mi correo</a>
+            </div>
+
+            <div class="token-info">
+                <strong>Enlace de confirmación:</strong><br>
+                {{confirmationUrl}}
+            </div>
+
+            <div class="warning">
+                <p><strong>⚠️ Importante:</strong></p>
+                <ul style="text-align: left; margin: 10px 0;">
+                    <li>Este enlace expirará en <strong>{{expirationTime}}</strong></li>
+                    <li>Solo puedes usar este enlace una vez</li>
+                    <li>Si no solicitaste esta confirmación, ignora este email</li>
+                </ul>
+            </div>
+
+            <p>Una vez confirmado tu email, podrás acceder a todas las funciones de Xuma'a y comenzar tu aventura ambiental. 🌱</p>
+        </div>
+        <div class="footer">
+            <div class="eco-icons">
+                <img src="cid:dexter-icon" alt="Dexter" class="eco-icon">
+                <img src="cid:elly-icon" alt="Elly" class="eco-icon">
+                <img src="cid:paxoloth-icon" alt="Paxoloth" class="eco-icon">
+                <img src="cid:yami-icon" alt="Yami" class="eco-icon">
+            </div>
+            <p>© 2024 Xuma'a - Cuidando nuestro planeta juntos</p>
+            <p>Este es un mensaje automático, por favor no responder.</p>
+        </div>
+    </div>
+</body>
+</html>
