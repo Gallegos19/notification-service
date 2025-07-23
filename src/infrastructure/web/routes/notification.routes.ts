@@ -327,6 +327,14 @@ export function createNotificationRoutes(
   router.post('/email/reminder', authMiddleware.authenticateService, notificationController.sendReminderEmail);
   router.post('/email/confirmation', authMiddleware.authenticateService, notificationController.sendEmailConfirmation);
   
+  // Ruta alternativa para servicios internos (más específica)
+  router.post('/internal/email/confirmation', authMiddleware.authenticateService, notificationController.sendEmailConfirmation);
+  router.post('internal/email/welcome',authMiddleware.authenticateService,notificationController.sendWelcomeEmail);
+  router.post('internal/email/reminder', authMiddleware.authenticateService, notificationController.sendReminderEmail);
+  
+  router.post('internal/email', authMiddleware.authenticateService, notificationController.sendEmail);
+  router.post('internal/push', authMiddleware.authenticateService, notificationController.sendPushNotification);
+  
   // Ruta para historial (requiere autenticación de usuario o servicio)
   router.get('/history', authMiddleware.authenticate, notificationController.getHistory);
 

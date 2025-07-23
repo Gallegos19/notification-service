@@ -47,35 +47,60 @@ export class AuthMiddleware {
     }
   };
 
-  // Middleware opcional para servicios internos (microservicios)
+  // Middleware para servicios internos (microservicios)
   authenticateService = (
     req: AuthenticatedRequest,
     res: Response,
     next: NextFunction
   ): void => {
     try {
-      const authHeader = req.headers.authorization;
       const serviceKey = req.headers["x-service-key"] as string;
+      const serviceName = req.headers["x-service-name"] as string;
 
-      // Si viene con service key, es un microservicio
-      if (serviceKey) {
-        // Aquí podrías validar el service key contra una lista de servicios autorizados
-        // Por ahora, simplificamos asumiendo que cualquier service key es válido
+      // Lista de servicios autorizados con sus claves
+      const authorizedServices = {
+        "auth-service":
+          process.env.AUTH_SERVICE_KEY || "auth-service-secret-key",
+        "user-service":
+          process.env.USER_SERVICE_KEY || "user-service-secret-key",
+        "admin-service":
+          process.env.GAMIFICATION_SERVICE_KEY || "gamification-service-secret-key",
+        "quiz-challenge-service":
+          process.env.QUIZ_CHALLENGE_SERVICE_KEY || "quiz-challenge-service-secret-key",
+      } as const;
+
+      // Validar que el servicio esté autorizado
+      if (
+        serviceKey &&
+        serviceName &&
+        serviceName in authorizedServices &&
+        authorizedServices[serviceName as keyof typeof authorizedServices] ===
+          serviceKey
+      ) {
         req.user = {
-          id: "service",
-          email: "service@xumaa.com",
+          id: `service-${serviceName}`,
+          email: `${serviceName}@xumaa.internal`,
           role: "service",
         };
         next();
         return;
       }
 
-      // Si no, usar autenticación JWT normal
+      // Si no es un servicio válido, rechazar
+      if (serviceKey || serviceName) {
+        res.status(403).json({
+          error: "Forbidden",
+          message: "Invalid service credentials",
+        });
+        return;
+      }
+
+      // Si no viene con headers de servicio, usar autenticación JWT normal
       this.authenticate(req, res, next);
     } catch (error) {
       res.status(500).json({
         error: "Internal server error",
-        message: "Error validating authentication",
+        message: "Error validating service authentication",
       });
     }
   };
