@@ -299,7 +299,7 @@ export class NotificationController {
       const { to, userName, token, baseUrl, expirationHours } = value;
 
       // Construir la URL de confirmación con el token
-      const confirmationUrl = `${baseUrl}/confirm-email?token=${token}`;
+      const confirmationUrl = `${baseUrl}/confirm-email/?token=${token}`;
 
       // Calcular tiempo de expiración
       const expirationTime =
